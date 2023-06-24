@@ -5,7 +5,6 @@ import Start from "./components/start";
 const GlobalStyle = createGlobalStyle`
   body {
     background: #e9ecef;
-    position: relative;
   }
 `;
 
