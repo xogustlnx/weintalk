@@ -12,6 +12,8 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Chip from "@mui/material/Chip";
 
+
+
 function getStyles(name, personName, theme) {
   return {
     fontWeight:
@@ -35,16 +37,13 @@ const MenuProps = {
 export default function MultipleSelect({ label, names, setValue }) {
   const theme = useTheme();
   const [personName, setPersonName] = useState([]);
+  setValue(personName);
 
   const handleChange = (event) => {
     const {
       target: { value },
     } = event;
-    setPersonName(
-      // On autofill we get a stringified value.
-      typeof value === "string" ? value.split(",") : value
-    );
-    setValue(personName);
+    setPersonName(typeof value === "string" ? value.split(",") : value);
   };
 
   return (

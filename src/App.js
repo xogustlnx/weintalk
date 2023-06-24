@@ -1,6 +1,8 @@
 import "./App.css";
 import { createGlobalStyle } from "styled-components";
-import Start from "./components/start";
+import Start from "./pages/start";
+import Main from "./pages/main";
+import { Route, Routes } from "react-router-dom";
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -12,7 +14,10 @@ function App() {
   return (
     <>
       <GlobalStyle />
-      <Start></Start>
+      <Routes>
+        <Route exact path="/" element={<Start />} />
+        <Route exact path="/main" element={<Main />} />
+      </Routes>
     </>
   );
 }
