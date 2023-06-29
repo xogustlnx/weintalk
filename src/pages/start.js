@@ -1,23 +1,13 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import img from "../Vector1.png";
+import img from "../info/images/face.png";
 import Button from "@mui/material/Button";
-import { NativeSelect } from "@mui/material";
-import Select from "@mui/material/Select";
-import { useTheme } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Chip from "@mui/material/Chip";
 
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { TextField } from "@material-ui/core";
-import SliderValueLabel from "@mui/material/Slider/SliderValueLabel";
 import Input from "../components/input";
 import MultipleSelect from "../components/multipleselect";
 
@@ -28,7 +18,7 @@ const Back = styled.div`
   width: 1440px;
   height: 1024px;
 
-  position: fixed;
+  position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -125,6 +115,7 @@ const Why = styled(TextField)`
   }
 `;
 
+
 const names = ["과학", "물리", "화학"];
 
 function Start({ children }) {
@@ -140,8 +131,28 @@ function Start({ children }) {
 
   const navigate = useNavigate();
 
-  function onSubmit(list) {
-    console.log(list);
+  const handleSubmit = async (target, e) => {
+    if (e && e.preventDefault) {
+      e.preventDefault();
+    }
+    try {
+      const response = await fetch("../api/prompting", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ info : target}),
+      });
+
+      const data = await response.json();
+    } catch (error) {
+      console.error(error);
+      alert(error.message);
+    }
+  };
+
+  function onSubmit(obj) {
+    handleSubmit(obj);
     navigate("/main");
   }
 
