@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import img from "../Vector1.png";
+
 import Button from "@mui/material/Button";
 import { NativeSelect } from "@mui/material";
 import Select from "@mui/material/Select";
@@ -11,8 +11,6 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Chip from "@mui/material/Chip";
-
-
 
 function getStyles(name, personName, theme) {
   return {
