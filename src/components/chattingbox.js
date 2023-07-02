@@ -71,7 +71,7 @@ function ChattingBox({ me, children, img }) {
 export default function ChattingBoxes({ chats, img }) {
   return (
     <>
-      {chats.map((chat) => (
+      {chats && chats.map((chat) => (
         <ChattingBox
           me={chat.me}
           children={chat.children}

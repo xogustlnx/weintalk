@@ -1,11 +1,5 @@
 import "./App.css";
-import React, {
-  useState,
-  createContext,
-  useContext,
-  useRef,
-  useEffect,
-} from "react";
+import React, { useState } from "react";
 import { createGlobalStyle } from "styled-components";
 import Start from "./pages/start";
 import Main from "./pages/main";
@@ -14,7 +8,10 @@ import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
-import Prompting from "./pages/api/prompting";
+import useDidMountEffect from "./hooks/useDidMountEffect";
+import { persons } from "../src/info/information";
+import infoPrompting from "./prompting/infoprompting";
+import questionPrompting from "./prompting/questionprompting";
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -23,29 +20,73 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
+export const messages = [];
+
 function App() {
   const { Configuration, OpenAIApi } = require("openai");
   const [info, setInfo] = useState();
   const [person, setPerson] = useState();
   const [question, setQuestion] = useState();
+  const [part, setPart] = useState(0);
 
-  const InfoContext = createContext(null);
-  const SetChatContext = createContext(null);
-
-  const SetNowContext = createContext(null);
+  const [res, setRes] = useState();
+  const [loading, setLoading] = useState(false);
 
   const configuration = new Configuration({
-    apiKey: process.env.OPENAI_API_KEY,
+    apiKey: process.env.REACT_APP_OPEN_API_KEY,
   });
+  console.log(part);
+  console.log(person);
+  console.log(persons[part]);
 
   const openai = new OpenAIApi(configuration);
+
+  useDidMountEffect(() => {
+    messages.length = 0;
+    infoPrompting(
+      openai,
+      info.name,
+      info.age,
+      info.interest,
+      persons[part][person].name,
+      setRes,
+      setLoading
+    );
+  }, [person]);
+
+  useDidMountEffect(() => {
+    questionPrompting(
+      openai,
+      info.name,
+      info.age,
+      info.interest,
+      persons[part][person].name,
+      setRes,
+      setLoading,
+      res,
+      question
+    );
+  }, [question]);
 
   return (
     <>
       <GlobalStyle />
       <Routes>
-        <Route exact path="/" element={<Start />} />
-        <Route exact path="/main" element={<Main />} />
+        <Route exact path="/" element={<Start setInfoApp={setInfo} />} />
+        <Route
+          exact
+          path="/main"
+          element={
+            <Main
+              setPersonApp={setPerson}
+              setQuestionApp={setQuestion}
+              res={res}
+              loading={loading}
+              info={info}
+              setPartApp={setPart}
+            />
+          }
+        />
       </Routes>
     </>
   );
