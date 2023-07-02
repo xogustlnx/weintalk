@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/weintalk/static/css/main.c1ce0cfc.css",
-    "main.js": "/weintalk/static/js/main.047ec0b6.js",
+    "main.js": "/weintalk/static/js/main.d0f2c19d.js",
     "static/js/787.7df257b4.chunk.js": "/weintalk/static/js/787.7df257b4.chunk.js",
     "static/media/나폴레옹.png": "/weintalk/static/media/나폴레옹.835076c1f2a8a63f9d93.png",
     "static/media/뉴턴.png": "/weintalk/static/media/뉴턴.74052e5a07e765a3d0f0.png",
@@ -71,11 +71,11 @@
     "static/media/roboto-greek-ext-700-normal.woff": "/weintalk/static/media/roboto-greek-ext-700-normal.249853776d22a271b2b5.woff",
     "index.html": "/weintalk/index.html",
     "main.c1ce0cfc.css.map": "/weintalk/static/css/main.c1ce0cfc.css.map",
-    "main.047ec0b6.js.map": "/weintalk/static/js/main.047ec0b6.js.map",
+    "main.d0f2c19d.js.map": "/weintalk/static/js/main.d0f2c19d.js.map",
     "787.7df257b4.chunk.js.map": "/weintalk/static/js/787.7df257b4.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.c1ce0cfc.css",
-    "static/js/main.047ec0b6.js"
+    "static/js/main.d0f2c19d.js"
   ]
 }
