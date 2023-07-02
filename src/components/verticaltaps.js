@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 
 function a11yProps(index) {
@@ -12,9 +10,10 @@ function a11yProps(index) {
   };
 }
 
-export default function VerticalTabs({ setValue, value ,list }) {
+export default function VerticalTabs({ setValue, value, list, setPartApp }) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    if (setPartApp) setPartApp(newValue);
   };
 
   return (
@@ -53,6 +52,7 @@ export default function VerticalTabs({ setValue, value ,list }) {
           label={list[2]}
           sx={{ minHeight: "92px", height: "92px" }}
           {...a11yProps(2)}
+          disabled
         />
       </Tabs>
     </Box>

@@ -115,10 +115,9 @@ const Why = styled(TextField)`
   }
 `;
 
-
 const names = ["과학", "물리", "화학"];
 
-function Start({ children }) {
+function Start({ children, setInfoApp }) {
   const title = "WE \n\nIN \n\nTALK";
   const subTitle = "역사 속 인물과의 \n가치있는 대화";
   const logintext = "가치있는 대화를 위해서는\n당신의 정보가 필요합니다.";
@@ -131,29 +130,10 @@ function Start({ children }) {
 
   const navigate = useNavigate();
 
-  const handleSubmit = async (target, e) => {
-    if (e && e.preventDefault) {
-      e.preventDefault();
-    }
-    try {
-      const response = await fetch("../api/prompting", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ info : target}),
-      });
-
-      const data = await response.json();
-    } catch (error) {
-      console.error(error);
-      alert(error.message);
-    }
-  };
-
   function onSubmit(obj) {
-    handleSubmit(obj);
+    setInfoApp(obj);
     navigate("/main");
+    console.log(obj);
   }
 
   function isAge(num) {

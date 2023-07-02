@@ -21,6 +21,8 @@ import logo from "../info/images/로고.png";
 import { persons } from "../info/information";
 import Input from "../components/input";
 import ChatTab from "../components/chattap";
+import useDidMountEffect from "../hooks/useDidMountEffect";
+import { useNavigate } from "react-router-dom";
 
 const Back = styled.div`
   background: #ffffff;
@@ -34,17 +36,17 @@ const Back = styled.div`
 
 const Logo = styled.img`
   position: absolute;
-  left: 44px;
-  top: 33px;
-  width: 80px;
-  height:80px
+  left: 64px;
+  top: 26px;
+  width: 100px;
+  height:77px
   cursor: pointer;
 `;
 
 const PartVerticalTabs = styled.div`
   position: absolute;
-  left: 123px;
-  top: 98px;
+  left: 51px;
+  top: 66px;
 `;
 
 const Mold = styled.div`
@@ -53,8 +55,8 @@ const Mold = styled.div`
   border-radius: 0px 10px 10px 10px;
   border: 2px solid #2196f3;
   position: absolute;
-  left: 243px;
-  top: 98px;
+  left: 171px;
+  top: 66px;
   display: flex;
 `;
 
@@ -94,27 +96,58 @@ const SetChatContext = createContext(null);
 
 const SetNowContext = createContext(null);
 
-export default function Main() {
+export default function Main({
+  setPersonApp,
+  setQuestionApp,
+  res,
+  loading,
+  info,
+  setPartApp,
+}) {
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!info) {
+      alert("정보를 입력해야 서비스를 이용할 수 있습니다.");
+      navigate("/");
+    }
+  }, []);
+
   const [part, setPart] = useState(0);
-  const parts = ["과학", "역사", "철학"];
+  const parts = ["역사", "과학", "철학"];
+  console.log(part);
   const [nowChat, setNowChat] = useState();
 
   const [now, setNow] = useState();
   const [question, setQuestion] = useState();
   const [answer, setAnswer] = useState();
 
-  const nextId = useRef(5);
+  useDidMountEffect(() => {
+    setQuestionApp(question);
+  }, [question]);
 
-  const [chats, setChats] = useState([
-    {
-      id: 1,
-      children:
-        "안녕하세요, 친구. 저는 알베르트 아인슈타인입니다. 저는 물리학자이고, 우주와 물질의 이해에 혁명을 가져온 특수 상대성 이론과 일반 상대성 이론을 발표했습니다. 저는 또한 광전효과에 대한 연구로 노벨 물리학상을 수상했습니다. 저는 어렸을 때부터 세상을 이해하는 데 관심이 많았습니다. 저는 세상이 어떻게 작동하는지, 세상이 어떻게 생겨났는지, 세상이 어떻게 끝날 것인지 알고 싶었습니다. 저는 물리학을 통해 세상을 이해할 수 있었고, 세상을 이해하는 것이 얼마나 기쁜 일인지 알게 되었습니다. 저는 여러분이 세상을 이해하는 것이 얼마나 기쁜 일인지 알게 되기를 바랍니다. 과학을 통해 세상을 이해하고, 세상을 변화시키는 사람이 되기를 바랍니다.",
-    },
-    { id: 2, children: "반갑습니다", me: true },
-    { id: 3, children: "무엇을 물어보고 싶니" },
-    { id: 4, children: "반갑습니다", me: true },
-  ]);
+  useDidMountEffect(() => {
+    setPersonApp(now);
+    setChats([]);
+  }, [now]);
+
+  useDidMountEffect(() => {
+    setChats([]);
+  }, [part]);
+
+  const nextId = useRef(0);
+
+  const [chats, setChats] = useState([]);
+
+  useDidMountEffect(() => {
+    if (loading)
+      setChats(chats.concat({ id: nextId.current, children: "입력중..." }));
+  }, [loading]);
+
+  useDidMountEffect(() => {
+    setChats((chats) => chats.concat({ id: nextId.current, children: res }));
+    setChats((chats) => chats.filter((chat) => chat.children !== "입력중..."));
+    nextId.current += 1;
+  }, [res]);
 
   const messagesEndRef = useRef(null);
 
@@ -132,7 +165,6 @@ export default function Main() {
         <SetChatContext.Provider value={setNowChat}>
           <SetNowContext.Provider value={setNow}>
             <Back>
-              <Logo onClick={(e) => setNowChat(false)} src={logo}></Logo>
               {!nowChat && (
                 <>
                   <PartVerticalTabs>
@@ -140,10 +172,11 @@ export default function Main() {
                       value={part}
                       setValue={setPart}
                       list={parts}
+                      setPartApp={setPartApp}
                     ></VerticalTabs>
                   </PartVerticalTabs>
                   <Mold>
-                    <PersonCards persons={persons}></PersonCards>
+                    <PersonCards persons={persons[part]}></PersonCards>
                   </Mold>
                 </>
               )}
@@ -156,7 +189,7 @@ export default function Main() {
                     <ChattingSpace>
                       <ChattingBoxes
                         chats={chats}
-                        img={persons[now].proImg}
+                        img={persons[part][now].proImg}
                       ></ChattingBoxes>
                       <div ref={messagesEndRef} />
                     </ChattingSpace>
@@ -166,6 +199,7 @@ export default function Main() {
                         variant="contained"
                         size="large"
                         onClick={(e) => setNowChat(false)}
+                        disabled={loading ? true : false}
                       >
                         메뉴로 돌아가기
                       </BackMainBtn>
@@ -174,12 +208,13 @@ export default function Main() {
                         placeholder={"질문을 입력해주세요"}
                         variant="outlined"
                         length="868px"
-                        setValue={setQuestion}
+                        setQuestion={setQuestion}
                         onKeyPress
                         setChats={setChats}
                         chats={chats}
                         id={nextId}
                         setAnswer={setAnswer}
+                        loading={loading}
                       ></Input>
                     </ChatBar>
                   </Mold>
