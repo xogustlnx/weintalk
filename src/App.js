@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { createGlobalStyle } from "styled-components";
 import Start from "./pages/start";
 import Main from "./pages/main";
-import { Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
@@ -35,6 +35,7 @@ function App() {
   const configuration = new Configuration({
     apiKey: process.env.REACT_APP_OPEN_API_KEY,
   });
+  console.log(process.env.REACT_APP_OPEN_API_KEY);
   console.log(part);
   console.log(person);
   console.log(persons[part]);
@@ -71,6 +72,7 @@ function App() {
   return (
     <>
       <GlobalStyle />
+      {/* <BrowserRouter basename="https://xogustlnx.github.io/weintalk/"> */}
       <Routes>
         <Route exact path="/" element={<Start setInfoApp={setInfo} />} />
         <Route
@@ -88,6 +90,7 @@ function App() {
           }
         />
       </Routes>
+      {/* </BrowserRouter> */}
     </>
   );
 }
