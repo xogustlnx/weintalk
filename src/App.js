@@ -17,6 +17,10 @@ const GlobalStyle = createGlobalStyle`
   body {
     background: #e9ecef;
     font-family: Roboto;
+    @media screen and (max-width: 500px) {
+      max-width: 100%;
+overflow-x: hidden;
+  }
   }
 `;
 
@@ -28,6 +32,7 @@ function App() {
   const [person, setPerson] = useState();
   const [question, setQuestion] = useState();
   const [part, setPart] = useState(0);
+  const [nowchat, setNowChat] = useState(false);
 
   const [res, setRes] = useState();
   const [loading, setLoading] = useState(false);
@@ -35,25 +40,23 @@ function App() {
   const configuration = new Configuration({
     apiKey: process.env.REACT_APP_OPEN_API_KEY,
   });
-  console.log(process.env.REACT_APP_OPEN_API_KEY);
-  console.log(part);
-  console.log(person);
-  console.log(persons[part]);
 
   const openai = new OpenAIApi(configuration);
 
   useDidMountEffect(() => {
-    messages.length = 0;
-    infoPrompting(
-      openai,
-      info.name,
-      info.age,
-      info.interest,
-      persons[part][person].name,
-      setRes,
-      setLoading
-    );
-  }, [person]);
+    if (nowchat) {
+      messages.length = 0;
+      infoPrompting(
+        openai,
+        info.name,
+        info.age,
+        info.interest,
+        persons[part][person].name,
+        setRes,
+        setLoading
+      );
+    }
+  }, [nowchat]);
 
   useDidMountEffect(() => {
     questionPrompting(
@@ -86,6 +89,7 @@ function App() {
               loading={loading}
               info={info}
               setPartApp={setPart}
+              setNowChatApp={setNowChat}
             />
           }
         />
