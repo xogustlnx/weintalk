@@ -115,7 +115,6 @@ export default function Main({
 
   const [part, setPart] = useState(0);
   const parts = ["역사", "과학", "철학"];
-  console.log(part);
   const [nowChat, setNowChat] = useState();
 
   const [now, setNow] = useState();

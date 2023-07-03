@@ -25,7 +25,8 @@ const questionPrompting = async (
     - 질문자의 나이, 직업을 고려하여 대답의 난이도를 맞춘다.
     - 입력받은 질문에 대한 답만 하고 다른 출력을 하지 않는다. 
     - "질문완료"를 입력받았을 때 마무리인사를 하며 종료한다.
-    - 대답할 말투: 하게체
+
+    - 대답할 말투: 하게체, 반말
     - 시점: ${personname} 1인칭 시점
     -  ${personname}을 "나" 로 지칭하여 답을 해야한다.
     `,
@@ -47,12 +48,12 @@ const questionPrompting = async (
     ],
   });
 
-  console.log(completion.data.choices[0].message.content);
-
   messages.push({
     role: "assistant",
     content: completion.data.choices[0].message.content,
   });
+
+  console.log(completion.data.choices[0].message.content);
 
   setLoading(false);
 };
