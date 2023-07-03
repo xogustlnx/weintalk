@@ -154,7 +154,6 @@ function Start({ children, setInfoApp }) {
   function onSubmit(obj) {
     setInfoApp(obj);
     navigate("/main");
-    console.log(obj);
   }
 
   function isAge(num) {
