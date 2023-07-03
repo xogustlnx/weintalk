@@ -103,6 +103,7 @@ export default function Main({
   loading,
   info,
   setPartApp,
+  setNowChatApp,
 }) {
   const navigate = useNavigate();
   useEffect(() => {
@@ -129,6 +130,11 @@ export default function Main({
     setPersonApp(now);
     setChats([]);
   }, [now]);
+
+  useDidMountEffect(() => {
+    setNowChatApp(nowChat);
+    setChats([]);
+  }, [nowChat]);
 
   useDidMountEffect(() => {
     setChats([]);

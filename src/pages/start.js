@@ -22,12 +22,30 @@ const Back = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  @media screen and (max-width: 500px) {
+    width: 500px;
+    height: 100vh;
+    transform: none;
+    position: relative;
+    top: 0;
+    left: 0;
+    
+  }
 `;
 
 const FaceImage = styled.img`
   width: 1062px;
   height: 1024px;
   position: absolute;
+  @media screen and (max-width: 500px) {
+    width: 500px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 100vh;
+    display: none;
+  }
 `;
 
 const Title = styled.div`
@@ -41,6 +59,9 @@ const Title = styled.div`
   position: absolute;
   left: 260px;
   top: 211px;
+  @media screen and (max-width: 500px) {
+    position: relative;
+  }
 `;
 
 const SubTitle = styled.div`
