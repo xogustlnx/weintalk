@@ -50,9 +50,7 @@ const questionPrompting = async (
   setRes(response.data.choices[0].message.content);
 
   // system, user 넣어서 assistant 받은 뒤 assistant 넣기 전에 system 삭제 -> 인덱스가 -2임
-  console.log(`before delete system message length: ${messages.length}`);
   messages.splice(-2, 1);
-  console.log(`after delete system message length: ${messages.length}`);
   // 이러면 요약없이도 맥락과 토큰길이 관리가 된다
 
   const completion = await openai.createChatCompletion({
@@ -67,8 +65,6 @@ const questionPrompting = async (
     role: "assistant",
     content: completion.data.choices[0].message.content,
   });
-
-  console.log(completion.data.choices[0].message.content);
 
   setLoading(false);
 };
