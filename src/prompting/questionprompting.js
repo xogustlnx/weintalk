@@ -12,6 +12,13 @@ const questionPrompting = async (
   question
 ) => {
   setLoading(true);
+  //messages길이가 6이상이면 앞에 2개 삭제
+  if (messages.length >= 6) {
+    console.log(`before delete message length: ${messages.length}`);
+    messages.splice(0, 2);
+    console.log(`after delete message length: ${messages.length}`);
+  }
+
   messages.push({
     role: "system",
     content: `[사용자 정보]
@@ -28,7 +35,7 @@ const questionPrompting = async (
     - 입력받은 질문에 대한 답만 하고 다른 출력을 하지 않는다. 
     - "질문완료"를 입력받았을 때 마무리인사를 하며 종료한다.
 
-    - 대답할 말투: 하게체, 반말
+    - 답변 말투: 하게체, 반말
     - 시점: ${personname} 1인칭 시점
     
     `,
@@ -42,6 +49,12 @@ const questionPrompting = async (
   });
   setRes(response.data.choices[0].message.content);
 
+  // system, user 넣어서 assistant 받은 뒤 assistant 넣기 전에 system 삭제 -> 인덱스가 -2임
+  console.log(`before delete system message length: ${messages.length}`);
+  messages.splice(-2, 1);
+  console.log(`after delete system message length: ${messages.length}`);
+  // 이러면 요약없이도 맥락과 토큰길이 관리가 된다
+
   const completion = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",
     messages: [
@@ -54,6 +67,8 @@ const questionPrompting = async (
     role: "assistant",
     content: completion.data.choices[0].message.content,
   });
+
+  console.log(completion.data.choices[0].message.content);
 
   setLoading(false);
 };
